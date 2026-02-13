@@ -19,6 +19,7 @@
     --ife-border: #E2E8F0;
     --card-shadow: 0 2px 8px rgba(0, 63, 112, 0.08);
     --card-radius: 8px;
+    --sidebar-width: 280px;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,6 +42,9 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
 
   .header-left {
@@ -72,18 +76,18 @@
     color: var(--ife-light-blue);
   }
 
-  /* ── Mode Toggle ── */
+  /* ── Mode Toggle (larger) ── */
   .mode-toggle {
     display: flex;
     background: rgba(255,255,255,0.12);
-    border-radius: 20px;
+    border-radius: 24px;
     overflow: hidden;
     border: 1px solid rgba(255,255,255,0.2);
   }
 
   .mode-btn {
-    padding: 8px 18px;
-    font-size: 13px;
+    padding: 12px 28px;
+    font-size: 16px;
     font-weight: 600;
     font-family: inherit;
     border: none;
@@ -104,60 +108,138 @@
     color: var(--ife-white);
   }
 
-  /* ── Selector Bar ── */
-  .selector-bar {
-    background: var(--ife-white);
-    border-bottom: 1px solid var(--ife-border);
-    padding: 12px 24px;
+  /* ── Layout: Sidebar + Content ── */
+  .app-layout {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
+    min-height: calc(100vh - 80px);
   }
 
-  .selector-btn {
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: inherit;
-    border: 2px solid var(--ife-navy);
-    border-radius: 6px;
+  /* ── Sidebar ── */
+  .sidebar {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
     background: var(--ife-white);
+    border-right: 1px solid var(--ife-border);
+    overflow-y: auto;
+    height: calc(100vh - 80px);
+    position: sticky;
+    top: 80px;
+  }
+
+  .sidebar-intro {
+    padding: 20px;
+    border-bottom: 1px solid var(--ife-border);
+  }
+
+  .sidebar-intro h3 {
+    font-size: 14px;
+    font-weight: 700;
     color: var(--ife-navy);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: left;
-    line-height: 1.3;
+    margin-bottom: 8px;
   }
 
-  .selector-btn .btn-sub {
-    display: block;
-    font-size: 11px;
-    font-weight: 400;
+  .sidebar-intro p {
+    font-size: 12px;
     color: var(--ife-slate);
-    margin-top: 1px;
+    line-height: 1.5;
   }
 
-  .selector-btn:hover {
+  .sidebar-intro .disclaimer {
+    margin-top: 10px;
+    font-size: 11px;
+    font-style: italic;
+    color: var(--ife-slate);
+    border-top: 1px solid var(--ife-border);
+    padding-top: 10px;
+  }
+
+  /* ── District list in sidebar ── */
+  .district-section {
+    border-bottom: 1px solid var(--ife-border);
+  }
+
+  .district-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ife-navy);
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    transition: background 0.15s ease;
+  }
+
+  .district-header:hover {
     background: var(--ife-off-white);
-    border-color: var(--ife-sky);
   }
 
-  .selector-btn.active {
-    background: var(--ife-navy);
-    color: var(--ife-white);
-    border-color: var(--ife-navy);
+  .district-header .chevron {
+    font-size: 12px;
+    transition: transform 0.2s ease;
+    color: var(--ife-slate);
   }
 
-  .selector-btn.active .btn-sub {
-    color: var(--ife-light-blue);
+  .district-header.expanded .chevron {
+    transform: rotate(180deg);
+  }
+
+  .district-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .district-body.open {
+    max-height: 600px;
+  }
+
+  .district-candidate {
+    padding: 10px 20px 10px 32px;
+    border-top: 1px solid var(--ife-border);
+  }
+
+  .district-candidate-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ife-sky);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 2px;
+  }
+
+  .district-candidate-name:hover {
+    text-decoration: underline;
+    color: var(--ife-blue);
+  }
+
+  .district-candidate-detail {
+    font-size: 11px;
+    color: var(--ife-slate);
+    line-height: 1.4;
+  }
+
+  .district-candidate-detail a {
+    color: var(--ife-slate);
+    text-decoration: none;
+  }
+
+  .district-candidate-detail a:hover {
+    text-decoration: underline;
+    color: var(--ife-sky);
   }
 
   /* ── Content Area ── */
   .content {
-    max-width: 820px;
-    margin: 0 auto;
+    flex: 1;
     padding: 24px;
+    min-width: 0;
   }
 
   /* ── Profile Card ── */
@@ -210,13 +292,32 @@
     margin-left: 4px;
   }
 
-  /* ── Q&A Card ── */
-  .qa-card {
+  /* ── Q&A Card (Accordion) ── */
+  .qa-card, .compare-card {
     background: var(--ife-white);
     border-radius: var(--card-radius);
     box-shadow: var(--card-shadow);
-    padding: 24px;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .qa-card-header, .compare-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 20px 24px;
+    cursor: pointer;
+    user-select: none;
+    gap: 12px;
+  }
+
+  .qa-card-header:hover, .compare-card-header:hover {
+    background: var(--ife-off-white);
+  }
+
+  .qa-header-text {
+    flex: 1;
+    min-width: 0;
   }
 
   .qa-label {
@@ -233,9 +334,34 @@
     font-weight: 700;
     color: var(--ife-navy);
     line-height: 1.4;
-    margin-bottom: 14px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--ife-border);
+  }
+
+  .card-chevron {
+    font-size: 14px;
+    color: var(--ife-slate);
+    transition: transform 0.2s ease;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+
+  .card-chevron.collapsed {
+    transform: rotate(-90deg);
+  }
+
+  .qa-card-body, .compare-card-body {
+    max-height: 2000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+
+  .qa-card-body.collapsed, .compare-card-body.collapsed {
+    max-height: 0;
+  }
+
+  .qa-card-body-inner, .compare-card-body-inner {
+    padding: 0 24px 20px 24px;
+    border-top: 1px solid var(--ife-border);
+    padding-top: 16px;
   }
 
   .qa-answer {
@@ -252,23 +378,6 @@
   }
 
   /* ── Compare Card ── */
-  .compare-card {
-    background: var(--ife-white);
-    border-radius: var(--card-radius);
-    box-shadow: var(--card-shadow);
-    padding: 24px;
-    margin-bottom: 16px;
-  }
-
-  .compare-card .qa-label {
-    margin-bottom: 6px;
-  }
-
-  .compare-card .qa-question {
-    margin-bottom: 16px;
-    padding-bottom: 16px;
-  }
-
   .candidate-answer-block {
     background: var(--ife-off-white);
     border-left: 3px solid var(--ife-sky);
@@ -306,11 +415,25 @@
   }
 
   /* ── Responsive ── */
-  @media (max-width: 600px) {
+  @media (max-width: 768px) {
+    .app-layout {
+      flex-direction: column;
+    }
+
+    .sidebar {
+      width: 100%;
+      min-width: 100%;
+      height: auto;
+      position: static;
+      border-right: none;
+      border-bottom: 1px solid var(--ife-border);
+    }
+
     .header {
       padding: 12px 16px;
       flex-direction: column;
       align-items: flex-start;
+      position: static;
     }
 
     .header-left {
@@ -332,16 +455,8 @@
     .mode-btn {
       flex: 1;
       text-align: center;
-    }
-
-    .selector-bar {
       padding: 10px 16px;
-    }
-
-    .selector-btn {
-      flex: 1 1 calc(50% - 4px);
-      min-width: 0;
-      text-align: center;
+      font-size: 14px;
     }
 
     .content {
@@ -349,7 +464,16 @@
     }
 
     .qa-card, .compare-card {
-      padding: 18px;
+      padding: 0;
+    }
+
+    .qa-card-header, .compare-card-header {
+      padding: 16px 18px;
+    }
+
+    .qa-card-body-inner, .compare-card-body-inner {
+      padding: 0 18px 16px 18px;
+      padding-top: 14px;
     }
 
     .profile-card {
@@ -369,14 +493,15 @@
     </div>
   </div>
   <div class="mode-toggle">
-    <button class="mode-btn active" data-mode="candidate" onclick="setMode('candidate')">By Candidate</button>
-    <button class="mode-btn" data-mode="compare" onclick="setMode('compare')">By District</button>
+    <button class="mode-btn" data-mode="candidate" onclick="setMode('candidate')">By Candidate</button>
+    <button class="mode-btn active" data-mode="compare" onclick="setMode('compare')">By District</button>
   </div>
 </header>
 
-<div class="selector-bar" id="selectorBar"></div>
-
-<main class="content" id="contentArea"></main>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content" id="contentArea"></main>
+</div>
 
 <script>
 const LOREM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
@@ -406,7 +531,7 @@ const surveyData = {
     {
       id: "q5",
       label: "Systemic Inequities",
-      text: "Reporting and studies over the last year have shown a shifting of the property tax burden onto residential homeowners, especially those in low-income communities and communities of color. How will you use your role to address these systemic inequities and other structural barriers to intergenerational homeownership?"
+      text: "Reporting and studies over the last year have shown a shifting of the property tax burden onto residential homeowners, especially those in low-income communities and communities of color. How will you use your role to address these systemic inequities and other structural barriers to intergenerational homeownership and wealth-building?"
     }
   ],
   districts: [
@@ -418,6 +543,7 @@ const surveyData = {
           id: "d1a",
           name: "Candidate A",
           occupation: "Lorem ipsum",
+          email: "candidatea@example.com",
           website: "https://loremipsum.com",
           answers: { q1: LOREM, q2: LOREM, q3: LOREM, q4: LOREM, q5: LOREM }
         },
@@ -425,6 +551,7 @@ const surveyData = {
           id: "d1b",
           name: "Candidate B",
           occupation: "Lorem ipsum",
+          email: "candidateb@example.com",
           website: "https://loremipsum.com",
           answers: { q1: LOREM, q2: LOREM, q3: LOREM, q4: LOREM, q5: LOREM }
         }
@@ -438,6 +565,7 @@ const surveyData = {
           id: "d2a",
           name: "Candidate C",
           occupation: "Lorem ipsum",
+          email: "candidatec@example.com",
           website: "https://loremipsum.com",
           answers: { q1: LOREM, q2: LOREM, q3: LOREM, q4: LOREM, q5: LOREM }
         },
@@ -445,6 +573,7 @@ const surveyData = {
           id: "d2b",
           name: "Candidate D",
           occupation: "Lorem ipsum",
+          email: "candidated@example.com",
           website: "https://loremipsum.com",
           answers: { q1: LOREM, q2: LOREM, q3: LOREM, q4: LOREM, q5: LOREM }
         }
@@ -454,9 +583,10 @@ const surveyData = {
 };
 
 /* ── State ── */
-let currentMode = "candidate";
+let currentMode = "compare";
 let selectedCandidate = surveyData.districts[0].candidates[0].id;
 let selectedDistrict = surveyData.districts[0].id;
+let expandedDistricts = { d1: true };
 
 /* ── Helpers ── */
 function findCandidate(id) {
@@ -493,56 +623,91 @@ function setMode(mode) {
   document.querySelectorAll(".mode-btn").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.mode === mode);
   });
-  renderSelectorBar();
   renderContent();
 }
 
-/* ── Selector bar ── */
-function renderSelectorBar() {
-  const bar = document.getElementById("selectorBar");
-  if (currentMode === "candidate") {
-    renderCandidateSelector(bar);
-  } else {
-    renderDistrictSelector(bar);
+/* ── Sidebar ── */
+function renderSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  let html = `<div class="sidebar-intro">
+    <h3>About This Survey</h3>
+    <p>Impact for Equity surveyed candidates running for Cook County Board of Review Commissioner seats. Each candidate was asked the same set of questions about their priorities, approach to transparency, and plans for addressing systemic inequities in property tax assessment appeals.</p>
+    <div class="disclaimer">Impact for Equity is a 501(c)(3) nonprofit organization. This survey is provided for informational purposes only and does not constitute an endorsement of any candidate.</div>
+  </div>`;
+
+  for (const d of surveyData.districts) {
+    const isExpanded = expandedDistricts[d.id] || false;
+    html += `<div class="district-section">
+      <button class="district-header${isExpanded ? ' expanded' : ''}" onclick="toggleDistrict('${d.id}')">
+        <span>${escapeHtml(d.name)}</span>
+        <span class="chevron">&#9660;</span>
+      </button>
+      <div class="district-body${isExpanded ? ' open' : ''}">`;
+
+    for (const c of d.candidates) {
+      const websiteDisplay = c.website ? c.website.replace(/^https?:\/\//, "") : "";
+      html += `<div class="district-candidate">
+        <a class="district-candidate-name" onclick="selectCandidateFromSidebar('${c.id}')">${escapeHtml(c.name)}</a>
+        <div class="district-candidate-detail">`;
+      if (c.email) {
+        html += `<a href="mailto:${escapeHtml(c.email)}">${escapeHtml(c.email)}</a><br>`;
+      }
+      if (c.website) {
+        html += `<a href="${escapeHtml(c.website)}" target="_blank" rel="noopener noreferrer">${escapeHtml(websiteDisplay)}</a>`;
+      }
+      html += `</div></div>`;
+    }
+
+    html += `</div></div>`;
+  }
+
+  sidebar.innerHTML = html;
+}
+
+function toggleDistrict(districtId) {
+  expandedDistricts[districtId] = !expandedDistricts[districtId];
+  selectedDistrict = districtId;
+  renderSidebar();
+  if (currentMode === "compare") {
+    renderContent();
   }
 }
 
-function renderCandidateSelector(bar) {
-  let html = "";
-  for (const d of surveyData.districts) {
-    for (const c of d.candidates) {
-      const active = c.id === selectedCandidate ? " active" : "";
-      html += `<button class="selector-btn${active}" onclick="selectCandidate('${c.id}')">
-        ${escapeHtml(c.name)}
-        <span class="btn-sub">${escapeHtml(d.name)}</span>
-      </button>`;
+function selectCandidateFromSidebar(id) {
+  selectedCandidate = id;
+  const d = findDistrictForCandidate(id);
+  if (d) {
+    selectedDistrict = d.id;
+    if (!expandedDistricts[d.id]) {
+      expandedDistricts[d.id] = true;
+      renderSidebar();
     }
   }
-  bar.innerHTML = html;
+  if (currentMode !== "candidate") {
+    setMode("candidate");
+  } else {
+    renderContent();
+  }
 }
 
-function renderDistrictSelector(bar) {
-  let html = "";
-  for (const d of surveyData.districts) {
-    const active = d.id === selectedDistrict ? " active" : "";
-    html += `<button class="selector-btn${active}" onclick="selectDistrict('${d.id}')">
-      ${escapeHtml(d.name)}
-      <span class="btn-sub">${d.candidates.length} candidates</span>
-    </button>`;
+/* ── Toggle answer accordion ── */
+function toggleAnswer(cardId) {
+  const body = document.getElementById(cardId + "-body");
+  const chevron = document.getElementById(cardId + "-chevron");
+  if (body && chevron) {
+    body.classList.toggle("collapsed");
+    chevron.classList.toggle("collapsed");
   }
-  bar.innerHTML = html;
 }
 
 /* ── Selection ── */
 function selectCandidate(id) {
   selectedCandidate = id;
-  renderSelectorBar();
   renderContent();
 }
 
 function selectDistrict(id) {
   selectedDistrict = id;
-  renderSelectorBar();
   renderContent();
 }
 
@@ -571,24 +736,36 @@ function renderCandidateView(area) {
   if (c.occupation) {
     html += `<span>${escapeHtml(c.occupation)}</span>`;
   }
+  if (c.email) {
+    html += `<span class="sep">&middot;</span>
+      <a href="mailto:${escapeHtml(c.email)}">${escapeHtml(c.email)}</a>`;
+  }
   if (c.website) {
     html += `<span class="sep">&middot;</span>
       <a href="${escapeHtml(c.website)}" target="_blank" rel="noopener noreferrer">${escapeHtml(websiteDisplay)}</a>`;
   }
   html += `</div></div>`;
 
-  // Q&A cards
+  // Q&A accordion cards
   surveyData.questions.forEach((q, i) => {
     const answer = c.answers[q.id];
+    const cardId = "qa-" + q.id;
     html += `<div class="qa-card">
-      <div class="qa-label">Question ${i + 1}</div>
-      <div class="qa-question">${escapeHtml(q.text)}</div>`;
+      <div class="qa-card-header" onclick="toggleAnswer('${cardId}')">
+        <div class="qa-header-text">
+          <div class="qa-label">Question ${i + 1}</div>
+          <div class="qa-question">${escapeHtml(q.text)}</div>
+        </div>
+        <span class="card-chevron" id="${cardId}-chevron">&#9660;</span>
+      </div>
+      <div class="qa-card-body" id="${cardId}-body">
+        <div class="qa-card-body-inner">`;
     if (answer) {
       html += `<div class="qa-answer">${escapeHtml(answer)}</div>`;
     } else {
       html += `<div class="qa-noanswer">No response provided.</div>`;
     }
-    html += `</div>`;
+    html += `</div></div></div>`;
   });
 
   html += `</div>`;
@@ -601,10 +778,42 @@ function renderCompareView(area) {
 
   let html = `<div class="fade-in">`;
 
+  // Occupation / Experience card
+  const occCardId = "cmp-occupation";
+  html += `<div class="compare-card">
+    <div class="compare-card-header" onclick="toggleAnswer('${occCardId}')">
+      <div class="qa-header-text">
+        <div class="qa-label">Background</div>
+        <div class="qa-question">Occupation / Experience</div>
+      </div>
+      <span class="card-chevron" id="${occCardId}-chevron">&#9660;</span>
+    </div>
+    <div class="compare-card-body" id="${occCardId}-body">
+      <div class="compare-card-body-inner">`;
+  for (const c of d.candidates) {
+    html += `<div class="candidate-answer-block">
+      <div class="candidate-answer-name">${escapeHtml(c.name)}</div>`;
+    if (c.occupation) {
+      html += `<div class="candidate-answer-text">${escapeHtml(c.occupation)}</div>`;
+    } else {
+      html += `<div class="candidate-answer-text qa-noanswer">No response provided.</div>`;
+    }
+    html += `</div>`;
+  }
+  html += `</div></div></div>`;
+
   surveyData.questions.forEach((q, i) => {
+    const cardId = "cmp-" + q.id;
     html += `<div class="compare-card">
-      <div class="qa-label">Question ${i + 1}</div>
-      <div class="qa-question">${escapeHtml(q.text)}</div>`;
+      <div class="compare-card-header" onclick="toggleAnswer('${cardId}')">
+        <div class="qa-header-text">
+          <div class="qa-label">Question ${i + 1}</div>
+          <div class="qa-question">${escapeHtml(q.text)}</div>
+        </div>
+        <span class="card-chevron" id="${cardId}-chevron">&#9660;</span>
+      </div>
+      <div class="compare-card-body" id="${cardId}-body">
+        <div class="compare-card-body-inner">`;
 
     for (const c of d.candidates) {
       const answer = c.answers[q.id];
@@ -618,7 +827,7 @@ function renderCompareView(area) {
       html += `</div>`;
     }
 
-    html += `</div>`;
+    html += `</div></div></div>`;
   });
 
   html += `</div>`;
@@ -627,7 +836,7 @@ function renderCompareView(area) {
 
 /* ── Init ── */
 document.addEventListener("DOMContentLoaded", function() {
-  renderSelectorBar();
+  renderSidebar();
   renderContent();
 });
 </script>
