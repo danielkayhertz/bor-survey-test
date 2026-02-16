@@ -586,7 +586,7 @@ const surveyData = {
 let currentMode = "compare";
 let selectedCandidate = surveyData.districts[0].candidates[0].id;
 let selectedDistrict = surveyData.districts[0].id;
-let expandedDistricts = { d1: true };
+// expandedDistricts removed — districts are always expanded in sidebar
 
 /* ── Helpers ── */
 function findCandidate(id) {
@@ -636,41 +636,26 @@ function renderSidebar() {
   </div>`;
 
   for (const d of surveyData.districts) {
-    const isExpanded = expandedDistricts[d.id] || false;
     html += `<div class="district-section">
-      <button class="district-header${isExpanded ? ' expanded' : ''}" onclick="toggleDistrict('${d.id}')">
+      <button class="district-header" onclick="toggleDistrict('${d.id}')">
         <span>${escapeHtml(d.name)}</span>
-        <span class="chevron">&#9660;</span>
-      </button>
-      <div class="district-body${isExpanded ? ' open' : ''}">`;
+      </button>`;
 
     for (const c of d.candidates) {
-      const websiteDisplay = c.website ? c.website.replace(/^https?:\/\//, "") : "";
       html += `<div class="district-candidate">
         <a class="district-candidate-name" onclick="selectCandidateFromSidebar('${c.id}')">${escapeHtml(c.name)}</a>
-        <div class="district-candidate-detail">`;
-      if (c.email) {
-        html += `<a href="mailto:${escapeHtml(c.email)}">${escapeHtml(c.email)}</a><br>`;
-      }
-      if (c.website) {
-        html += `<a href="${escapeHtml(c.website)}" target="_blank" rel="noopener noreferrer">${escapeHtml(websiteDisplay)}</a>`;
-      }
-      html += `</div></div>`;
+      </div>`;
     }
 
-    html += `</div></div>`;
+    html += `</div>`;
   }
 
   sidebar.innerHTML = html;
 }
 
 function toggleDistrict(districtId) {
-  expandedDistricts[districtId] = !expandedDistricts[districtId];
   selectedDistrict = districtId;
-  renderSidebar();
-  if (currentMode === "compare") {
-    renderContent();
-  }
+  setMode("compare");
 }
 
 function selectCandidateFromSidebar(id) {
@@ -678,10 +663,6 @@ function selectCandidateFromSidebar(id) {
   const d = findDistrictForCandidate(id);
   if (d) {
     selectedDistrict = d.id;
-    if (!expandedDistricts[d.id]) {
-      expandedDistricts[d.id] = true;
-      renderSidebar();
-    }
   }
   if (currentMode !== "candidate") {
     setMode("candidate");
@@ -777,6 +758,9 @@ function renderCompareView(area) {
   if (!d) { area.innerHTML = ""; return; }
 
   let html = `<div class="fade-in">`;
+
+  // District header
+  html += `<h2 class="district-view-title">${escapeHtml(d.name)}</h2>`;
 
   // Occupation / Experience card
   const occCardId = "cmp-occupation";
