@@ -404,6 +404,180 @@
     white-space: pre-wrap;
   }
 
+  /* ── Address Lookup Card ── */
+  .lookup-card {
+    background: var(--ife-white);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--ife-sky);
+  }
+
+  .lookup-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ife-navy);
+    margin-bottom: 12px;
+  }
+
+  .lookup-form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .lookup-input {
+    flex: 1;
+    padding: 10px 14px;
+    font-size: 15px;
+    font-family: inherit;
+    border: 1px solid var(--ife-border);
+    border-radius: 6px;
+    color: var(--ife-charcoal);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .lookup-input:focus {
+    border-color: var(--ife-sky);
+    box-shadow: 0 0 0 3px rgba(40, 153, 213, 0.15);
+  }
+
+  .lookup-input::placeholder {
+    color: var(--ife-slate);
+    font-size: 14px;
+  }
+
+  .lookup-btn {
+    padding: 10px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    background: var(--ife-blue);
+    color: var(--ife-white);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+  }
+
+  .lookup-btn:hover {
+    background: var(--ife-navy);
+  }
+
+  .lookup-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .lookup-message {
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .lookup-message.error {
+    color: #c0392b;
+  }
+
+  .lookup-message.info {
+    color: var(--ife-slate);
+  }
+
+  .lookup-message.district3 {
+    color: var(--ife-navy);
+    background: var(--ife-off-white);
+    padding: 12px 16px;
+    border-radius: 6px;
+    border-left: 3px solid var(--ife-sky);
+  }
+
+  .lookup-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--ife-border);
+    border-top-color: var(--ife-sky);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ── Lookup Badge (collapsed state) ── */
+  .lookup-badge {
+    background: var(--ife-white);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--ife-sky);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .lookup-badge-text {
+    font-size: 15px;
+    color: var(--ife-charcoal);
+  }
+
+  .lookup-badge-text strong {
+    color: var(--ife-navy);
+  }
+
+  .lookup-badge-change {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ife-sky);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.15s ease;
+  }
+
+  .lookup-badge-change:hover {
+    background: var(--ife-off-white);
+    color: var(--ife-blue);
+  }
+
+  /* ── Content highlight animation ── */
+  .district-highlight {
+    animation: highlightPulse 1s ease-out;
+  }
+
+  @keyframes highlightPulse {
+    0% { background-color: rgba(132, 184, 227, 0.2); }
+    100% { background-color: transparent; }
+  }
+
+  /* ── OSM Attribution Footer ── */
+  .osm-footer {
+    text-align: center;
+    padding: 16px 24px;
+    font-size: 12px;
+    color: var(--ife-slate);
+  }
+
+  .osm-footer a {
+    color: var(--ife-slate);
+    text-decoration: underline;
+  }
+
+  .osm-footer a:hover {
+    color: var(--ife-sky);
+  }
+
   /* ── Fade animation ── */
   .fade-in {
     animation: fadeIn 0.3s ease-in;
@@ -479,6 +653,29 @@
     .profile-card {
       padding: 16px 18px;
     }
+
+    .lookup-form {
+      flex-direction: column;
+    }
+
+    .lookup-input {
+      min-height: 44px;
+      font-size: 16px;
+    }
+
+    .lookup-btn {
+      width: 100%;
+      min-height: 44px;
+      font-size: 16px;
+    }
+
+    .lookup-card {
+      padding: 16px 18px;
+    }
+
+    .lookup-badge {
+      padding: 10px 16px;
+    }
   }
 </style>
 </head>
@@ -502,6 +699,10 @@
   <aside class="sidebar" id="sidebar"></aside>
   <main class="content" id="contentArea"></main>
 </div>
+
+<footer class="osm-footer">
+  Address lookup powered by <a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>
+</footer>
 
 <script>
 const LOREM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
@@ -588,6 +789,159 @@ let selectedCandidate = surveyData.districts[0].candidates[0].id;
 let selectedDistrict = surveyData.districts[0].id;
 // expandedDistricts removed — districts are always expanded in sidebar
 
+/* ── Address Lookup State ── */
+let districtGeoJSON = null;
+let geoJSONLoaded = false;
+let userDistrict = null;
+let lookupExpanded = true;
+let pendingCoords = null; // {lat, lon} queued while GeoJSON loads
+
+const DISTRICT_ID_MAP = {1: "d1", 2: "d2", 3: "d3"};
+
+/* ── GeoJSON Loading ── */
+fetch("bor-districts.geojson")
+  .then(r => r.json())
+  .then(data => {
+    districtGeoJSON = data;
+    geoJSONLoaded = true;
+    if (pendingCoords) {
+      const {lat, lon} = pendingCoords;
+      pendingCoords = null;
+      resolveLookup(lat, lon);
+    }
+  })
+  .catch(() => {
+    // GeoJSON failed to load — lookup will show an error when attempted
+  });
+
+/* ── Point-in-Polygon (Ray Casting) ── */
+function pointInPolygon(lat, lon, ring) {
+  // ring is array of [lon, lat] coordinate pairs (GeoJSON order)
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xi = ring[i][0], yi = ring[i][1];
+    const xj = ring[j][0], yj = ring[j][1];
+    if (((yi > lat) !== (yj > lat)) &&
+        (lon < (xj - xi) * (lat - yi) / (yj - yi) + xi)) {
+      inside = !inside;
+    }
+  }
+  return inside;
+}
+
+function findDistrictForCoords(lat, lon) {
+  if (!districtGeoJSON) return null;
+  for (const feature of districtGeoJSON.features) {
+    const ring = feature.geometry.coordinates[0];
+    if (pointInPolygon(lat, lon, ring)) {
+      const districtNum = feature.properties.DISTRICT_INT;
+      return DISTRICT_ID_MAP[districtNum] || null;
+    }
+  }
+  return null;
+}
+
+/* ── Geocoding & Lookup ── */
+async function handleAddressLookup() {
+  const input = document.getElementById("lookup-address");
+  const msgEl = document.getElementById("lookup-message");
+  const btn = document.getElementById("lookup-btn");
+  const address = input.value.trim();
+
+  if (!address) {
+    msgEl.className = "lookup-message error";
+    msgEl.textContent = "Please enter an address.";
+    return;
+  }
+
+  // Show loading state
+  btn.disabled = true;
+  msgEl.className = "lookup-message info";
+  msgEl.innerHTML = '<span class="lookup-spinner"></span> Looking up your address\u2026';
+
+  try {
+    const url = "https://nominatim.openstreetmap.org/search?" + new URLSearchParams({
+      q: address,
+      format: "json",
+      addressdetails: "1",
+      countrycodes: "us"
+    });
+
+    const resp = await fetch(url, {
+      headers: { "User-Agent": "ImpactForEquity-BoRSurvey/1.0 (info@impactforequity.org)" }
+    });
+    const results = await resp.json();
+
+    // Filter to Cook County
+    const cookResults = results.filter(r =>
+      r.address && r.address.county && r.address.county.toLowerCase().includes("cook")
+    );
+
+    if (cookResults.length === 0) {
+      if (results.length === 0) {
+        msgEl.className = "lookup-message error";
+        msgEl.textContent = "We couldn\u2019t find that address. Please check the address and try again.";
+      } else {
+        msgEl.className = "lookup-message error";
+        msgEl.textContent = "This address doesn\u2019t appear to be in Cook County. The Board of Review covers Cook County properties only.";
+      }
+      btn.disabled = false;
+      return;
+    }
+
+    const lat = parseFloat(cookResults[0].lat);
+    const lon = parseFloat(cookResults[0].lon);
+
+    if (!geoJSONLoaded) {
+      // Queue for when GeoJSON finishes loading
+      pendingCoords = {lat, lon};
+      msgEl.className = "lookup-message info";
+      msgEl.innerHTML = '<span class="lookup-spinner"></span> Loading district boundaries\u2026';
+      return;
+    }
+
+    resolveLookup(lat, lon);
+  } catch (e) {
+    msgEl.className = "lookup-message error";
+    msgEl.textContent = "Something went wrong looking up your address. Please try again.";
+    btn.disabled = false;
+  }
+}
+
+function resolveLookup(lat, lon) {
+  const msgEl = document.getElementById("lookup-message");
+  const btn = document.getElementById("lookup-btn");
+
+  const districtId = findDistrictForCoords(lat, lon);
+
+  if (!districtId) {
+    msgEl.className = "lookup-message error";
+    msgEl.textContent = "This address doesn\u2019t appear to be in Cook County. The Board of Review covers Cook County properties only.";
+    if (btn) btn.disabled = false;
+    return;
+  }
+
+  userDistrict = districtId;
+
+  if (districtId === "d3") {
+    // District 3 — no election this year
+    msgEl.className = "lookup-message district3";
+    msgEl.textContent = "There is no Board of Review election in your district this year. You can still explore the candidates in other districts below.";
+    if (btn) btn.disabled = false;
+    lookupExpanded = true;
+  } else {
+    // District 1 or 2 — navigate
+    lookupExpanded = false;
+    selectedDistrict = districtId;
+    setMode("compare");
+    // Add highlight animation
+    setTimeout(() => {
+      const fadeEl = document.querySelector("#contentArea .fade-in");
+      if (fadeEl) fadeEl.classList.add("district-highlight");
+    }, 50);
+  }
+}
+
 /* ── Helpers ── */
 function findCandidate(id) {
   for (const d of surveyData.districts) {
@@ -615,6 +969,10 @@ function escapeHtml(str) {
   const div = document.createElement("div");
   div.textContent = str;
   return div.innerHTML;
+}
+
+function escapeAttr(str) {
+  return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 /* ── Mode switching ── */
@@ -692,13 +1050,72 @@ function selectDistrict(id) {
   renderContent();
 }
 
+/* ── Lookup Card Rendering ── */
+function renderLookupCard() {
+  if (!lookupExpanded && userDistrict) {
+    // Collapsed badge
+    const d = findDistrict(userDistrict);
+    const name = d ? d.name : userDistrict;
+    return `<div class="lookup-badge">
+      <span class="lookup-badge-text">Your district: <strong>${escapeHtml(name)}</strong></span>
+      <button class="lookup-badge-change" onclick="expandLookup()">Change</button>
+    </div>`;
+  }
+
+  // Expanded card
+  const addressVal = document.getElementById("lookup-address")
+    ? document.getElementById("lookup-address").value
+    : "";
+  return `<div class="lookup-card">
+    <h3>Find Your District</h3>
+    <form class="lookup-form" onsubmit="event.preventDefault(); handleAddressLookup();">
+      <input type="text" id="lookup-address" class="lookup-input"
+        placeholder="Enter your address (e.g. 123 Main St, Chicago, IL)"
+        value="${escapeAttr(addressVal)}" autocomplete="street-address">
+      <button type="submit" id="lookup-btn" class="lookup-btn">Search</button>
+    </form>
+    <div id="lookup-message" class="lookup-message"></div>
+  </div>`;
+}
+
+function expandLookup() {
+  lookupExpanded = true;
+  userDistrict = null;
+  renderContent();
+}
+
 /* ── Content rendering ── */
 function renderContent() {
   const area = document.getElementById("contentArea");
+  // Preserve lookup input value before re-render
+  const prevInput = document.getElementById("lookup-address");
+  const prevVal = prevInput ? prevInput.value : "";
+  const prevMsg = document.getElementById("lookup-message");
+  const prevMsgHTML = prevMsg ? prevMsg.outerHTML : "";
+
+  let html = renderLookupCard();
+
+  // Render main content into a temp container
+  const tempDiv = document.createElement("div");
   if (currentMode === "candidate") {
-    renderCandidateView(area);
+    renderCandidateView(tempDiv);
   } else {
-    renderCompareView(area);
+    renderCompareView(tempDiv);
+  }
+  html += tempDiv.innerHTML;
+  area.innerHTML = html;
+
+  // Restore input value
+  const newInput = document.getElementById("lookup-address");
+  if (newInput && prevVal) newInput.value = prevVal;
+
+  // Restore message if card is expanded and had a message
+  if (lookupExpanded && prevMsgHTML && userDistrict === "d3") {
+    const newMsg = document.getElementById("lookup-message");
+    if (newMsg) {
+      newMsg.className = "lookup-message district3";
+      newMsg.textContent = "There is no Board of Review election in your district this year. You can still explore the candidates in other districts below.";
+    }
   }
 }
 
