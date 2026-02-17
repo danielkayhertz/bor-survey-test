@@ -52,6 +52,28 @@
     flex-wrap: wrap;
   }
 
+  .header-context {
+    background: var(--ife-white);
+    border: 1px solid var(--ife-border);
+    border-radius: var(--card-radius);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    box-shadow: var(--card-shadow);
+  }
+
+  .header-context-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ife-navy);
+    margin-bottom: 8px;
+  }
+
+  .header-context p {
+    font-size: 15px;
+    color: var(--ife-charcoal);
+    line-height: 1.7;
+  }
+
   .header-title {
     color: var(--ife-white);
   }
@@ -155,7 +177,7 @@
     justify-content: space-between;
     padding: 14px 20px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     color: var(--ife-navy);
     background: transparent;
@@ -196,7 +218,7 @@
   }
 
   .district-candidate-name {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     color: var(--ife-sky);
     cursor: pointer;
@@ -692,8 +714,7 @@
 <body>
 
 <header class="header">
-  <div class="header-left">
-  </div>
+  <div class="header-left"></div>
   <div class="mode-toggle">
     <button class="mode-btn" data-mode="candidate" onclick="setMode('candidate')">By Candidate</button>
     <button class="mode-btn active" data-mode="compare" onclick="setMode('compare')">By District</button>
@@ -1016,11 +1037,7 @@ function setMode(mode) {
 /* ── Sidebar ── */
 function renderSidebar() {
   const sidebar = document.getElementById("sidebar");
-  let html = `<div class="sidebar-intro">
-    <h3>About This Survey</h3>
-    <p>Ahead of the March 2026 primary election, Impact for Equity sent questionnaires to all candidates running for Cook County Board of Review Commissioner seats. Each candidate was asked the same set of questions. All candidates were given two weeks to respond, and answers have been published verbatim from the submitted responses.</p>
-    <div class="disclaimer">Impact for Equity is a 501(c)(3) nonprofit organization. This questionnaire is provided for informational purposes only and does not constitute an endorsement of any candidate, nor our support for or opposition to any candidate.</div>
-  </div>`;
+  let html = "";
 
   for (const d of surveyData.districts) {
     html += `<div class="district-section">
@@ -1036,6 +1053,12 @@ function renderSidebar() {
 
     html += `</div>`;
   }
+
+  html += `<div class="sidebar-intro">
+    <h3>About This Survey</h3>
+    <p>Ahead of the March 2026 primary election, Impact for Equity sent questionnaires to all candidates running for Cook County Board of Review Commissioner seats. Each candidate was asked the same set of questions. All candidates were given two weeks to respond, and answers have been published verbatim from the submitted responses.</p>
+    <div class="disclaimer">Impact for Equity is a 501(c)(3) nonprofit organization. This questionnaire is provided for informational purposes only and does not constitute an endorsement of any candidate, nor our support for or opposition to any candidate.</div>
+  </div>`;
 
   sidebar.innerHTML = html;
 }
@@ -1122,7 +1145,11 @@ function renderContent() {
   const prevMsg = document.getElementById("lookup-message");
   const prevMsgHTML = prevMsg ? prevMsg.outerHTML : "";
 
-  let html = renderLookupCard();
+  let html = `<div class="header-context">
+    <h2 class="header-context-title">About the Board of Review</h2>
+    <p>The Board of Review, which is a government office that decides appeals for the overvaluation of property assessments, consists of three Commissioners for three separate Districts. Their mission is to provide efficient, accessible service to all property owners. Homeowners can reduce their property taxes\u2014one of Illinois homeowners\u2019 most significant annual costs\u2014by appealing to the Board of Review, which makes Board of Review Commissioners important elected officials with the power to ensure a fair and equitable property tax system.</p>
+  </div>`;
+  html += renderLookupCard();
 
   // Render main content into a temp container
   const tempDiv = document.createElement("div");
