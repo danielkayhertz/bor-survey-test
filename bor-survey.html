@@ -926,7 +926,7 @@ function resolveLookup(lat, lon) {
   if (districtId === "d3") {
     // District 3 — no election this year
     msgEl.className = "lookup-message district3";
-    msgEl.textContent = "There is no Board of Review election in your district this year. You can still explore the candidates in other districts below.";
+    msgEl.textContent = "Your address is in District 3, which does not have a Board of Review election this year. You can still explore the candidates in other districts below.";
     if (btn) btn.disabled = false;
     lookupExpanded = true;
   } else {
@@ -1114,7 +1114,7 @@ function renderContent() {
     const newMsg = document.getElementById("lookup-message");
     if (newMsg) {
       newMsg.className = "lookup-message district3";
-      newMsg.textContent = "There is no Board of Review election in your district this year. You can still explore the candidates in other districts below.";
+      newMsg.textContent = "Your address is in District 3, which does not have a Board of Review election this year. You can still explore the candidates in other districts below.";
     }
   }
 }

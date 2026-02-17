@@ -85,7 +85,7 @@ A high-resolution GeoJSON file (`Board_of_Review_Boundary_-_Current.geojson`, ~1
   3. Collapse the lookup card to the slim badge
   4. Apply a brief visual highlight/animation to the content area (e.g. a fade-in with a subtle color pulse on the district heading) to connect the lookup result to the content
 - **District 3** (no election):
-  1. Show message in the lookup card: "There is no Board of Review election in your district this year. You can still explore the candidates in other districts below."
+  1. Show message in the lookup card: "Your address is in District 3, which does not have a Board of Review election this year. You can still explore the candidates in other districts below."
   2. Do NOT collapse the card (keep expanded so the message is visible)
   3. Do NOT auto-navigate (user can manually browse)
 
